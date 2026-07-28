@@ -27,4 +27,4 @@ Use this right before submitting — every item maps to an actual qualification 
 
 ## Nice-to-haves if time allows
 - [ ] Deployed demo link (Vercel/Netlify) so judges don't need to run it locally
-- [ ] Short write-up of one interesting technical challenge you solved
+- [x] Short write-up of one interesting technical challenge you solved

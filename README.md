@@ -40,6 +40,7 @@ npm run render-all # renders email.html, page.html, and receipt.pdf to /output
 - [Rules](./docs/RULES.md)
 - [Architecture](./docs/ARCHITECTURE.md)
 - [Submission checklist](./docs/SUBMISSION_CHECKLIST.md)
+- [Technical challenge solved](./docs/TECHNICAL_CHALLENGE.md)
 
 ## Built with
 
