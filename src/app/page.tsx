@@ -20,10 +20,12 @@ export default function Home() {
 
   const themes = [saasTheme, ecommerceTheme, darkTheme];
 
+  const forceBg = (html: string, color: string) => html.replace('</head>', `<style>html, body, .u_body { background-color: ${color} !important; }</style></head>`);
+
   // Render to HTML only on client to prevent hydration mismatch (Unlayer generates random IDs)
-  const emailHtml = isClient ? renderToHtml(<WelcomeEmail theme={activeTheme} content={onboardingContent} />) : '';
-  const webHtml = isClient ? renderToHtml(<LandingPage theme={activeTheme} content={onboardingContent} />) : '';
-  const pdfHtml = isClient ? renderToHtml(<Receipt theme={activeTheme} content={onboardingContent} />) : '';
+  const emailHtml = isClient ? forceBg(renderToHtml(<WelcomeEmail theme={activeTheme} content={onboardingContent} />), activeTheme.colors.background) : '';
+  const webHtml = isClient ? forceBg(renderToHtml(<LandingPage theme={activeTheme} content={onboardingContent} />), activeTheme.colors.background) : '';
+  const pdfHtml = isClient ? forceBg(renderToHtml(<Receipt theme={activeTheme} content={onboardingContent} />), activeTheme.colors.background) : '';
 
   return (
     <main style={{ padding: '3rem 2rem', maxWidth: '1600px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
