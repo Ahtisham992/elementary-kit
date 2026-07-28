@@ -12,13 +12,18 @@ import { onboardingContent } from '../content/onboarding';
 
 export default function Home() {
   const [activeTheme, setActiveTheme] = useState(saasTheme);
+  const [isClient, setIsClient] = useState(false);
+
+  React.useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const themes = [saasTheme, ecommerceTheme, darkTheme];
 
-  // Render to HTML
-  const emailHtml = renderToHtml(<WelcomeEmail theme={activeTheme} content={onboardingContent} />);
-  const webHtml = renderToHtml(<LandingPage theme={activeTheme} content={onboardingContent} />);
-  const pdfHtml = renderToHtml(<Receipt theme={activeTheme} content={onboardingContent} />);
+  // Render to HTML only on client to prevent hydration mismatch (Unlayer generates random IDs)
+  const emailHtml = isClient ? renderToHtml(<WelcomeEmail theme={activeTheme} content={onboardingContent} />) : '';
+  const webHtml = isClient ? renderToHtml(<LandingPage theme={activeTheme} content={onboardingContent} />) : '';
+  const pdfHtml = isClient ? renderToHtml(<Receipt theme={activeTheme} content={onboardingContent} />) : '';
 
   return (
     <main style={{ padding: '3rem 2rem', maxWidth: '1600px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
@@ -89,7 +94,7 @@ export default function Home() {
             <h2 style={{ fontSize: '1.3rem', fontWeight: 600, color: '#2d3748', margin: 0 }}>Welcome Email</h2>
           </div>
           <div style={{ flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', backgroundColor: '#fff', boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.02)' }}>
-            <iframe srcDoc={emailHtml} style={{ width: '100%', height: '100%', border: 'none' }} title="Email Preview" />
+            <iframe key={`email-${activeTheme.name}`} srcDoc={emailHtml} style={{ width: '100%', height: '100%', border: 'none' }} title="Email Preview" />
           </div>
         </div>
 
@@ -100,7 +105,7 @@ export default function Home() {
             <h2 style={{ fontSize: '1.3rem', fontWeight: 600, color: '#2d3748', margin: 0 }}>Landing Page</h2>
           </div>
           <div style={{ flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', backgroundColor: '#fff', boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.02)' }}>
-            <iframe srcDoc={webHtml} style={{ width: '100%', height: '100%', border: 'none' }} title="Web Preview" />
+            <iframe key={`web-${activeTheme.name}`} srcDoc={webHtml} style={{ width: '100%', height: '100%', border: 'none' }} title="Web Preview" />
           </div>
         </div>
 
@@ -111,7 +116,7 @@ export default function Home() {
             <h2 style={{ fontSize: '1.3rem', fontWeight: 600, color: '#2d3748', margin: 0 }}>PDF Receipt</h2>
           </div>
           <div style={{ flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', backgroundColor: '#fff', boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.02)' }}>
-            <iframe srcDoc={pdfHtml} style={{ width: '100%', height: '100%', border: 'none' }} title="PDF Preview" />
+            <iframe key={`pdf-${activeTheme.name}`} srcDoc={pdfHtml} style={{ width: '100%', height: '100%', border: 'none' }} title="PDF Preview" />
           </div>
         </div>
         
