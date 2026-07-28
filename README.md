@@ -2,6 +2,8 @@
 
 > One component tree. Every surface.
 
+🚀 **Live Demo:** [elementary-kit.vercel.app](https://elementary-kit.vercel.app)
+
 A themeable onboarding content system — welcome email, landing page, and PDF receipt — all rendered from the **same** React component tree using [Unlayer Elements](https://github.com/unlayer/elements). Switch themes and watch all three surfaces update together.
 
 ![demo](./docs/demo.webp)
@@ -29,6 +31,20 @@ npm install
 npm run dev        # launches the demo app with the theme switcher
 npm run render-all # renders email.html, page.html, and receipt.pdf to /output
 ```
+
+## Deployment (Vercel)
+
+This project is a standard Next.js application and is 100% zero-config compatible with Vercel. 
+The PDF generation via Puppeteer (`npm run render-all`) is isolated to a CLI script and is NOT executed during the standard Next.js `build` process, meaning there are no serverless function size limits or Chromium dependency issues to worry about during deployment.
+
+To deploy your own live demo:
+
+1. Install Vercel CLI: `npm i -g vercel`
+2. Run `vercel login` and authenticate
+3. Run `vercel` in the project root to deploy
+4. Follow the prompts (defaults are fine)
+
+Alternatively, just push the repo to GitHub and import it via the Vercel dashboard.
 
 ## Project docs
 

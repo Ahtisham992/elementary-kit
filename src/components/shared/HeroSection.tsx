@@ -1,5 +1,6 @@
 import React from 'react';
-import { Row, Column, Paragraph } from '@unlayer/react-elements';
+import { Row, Column, Paragraph as BaseParagraph } from '@unlayer/react-elements';
+const Paragraph = BaseParagraph as any;
 import { Theme } from '../../theme/tokens';
 import { ContentPayload } from '../../content/onboarding';
 

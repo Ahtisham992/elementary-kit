@@ -8,18 +8,104 @@ import { Receipt } from '../surfaces/pdf/Receipt';
 import { saasTheme } from '../theme/saas';
 import { ecommerceTheme } from '../theme/ecommerce';
 import { darkTheme } from '../theme/dark';
-import { Mail, Globe, FileText } from 'lucide-react';
-import { onboardingContent, receiptContent } from '../content/onboarding';
+import { Mail, Globe, FileText, Code, X, Copy, Check } from 'lucide-react';
+import { onboardingContent, receiptContent, orderShippedContent, orderShippedReceiptContent } from '../content/onboarding';
+
+// Modal component for inspecting markup
+function InspectModal({ 
+  isOpen, 
+  onClose, 
+  html, 
+  title, 
+  badge 
+}: { 
+  isOpen: boolean, 
+  onClose: () => void, 
+  html: string, 
+  title: string,
+  badge: string
+}) {
+  const [copied, setCopied] = useState(false);
+
+  if (!isOpen) return null;
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(html);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div style={{
+      position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+      backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)',
+      zIndex: 1000, display: 'flex', justifyContent: 'center', alignItems: 'center',
+      padding: '2rem'
+    }}>
+      <div style={{
+        backgroundColor: '#1e1e1e', color: '#fff',
+        borderRadius: '16px', width: '100%', maxWidth: '900px',
+        maxHeight: '90vh', display: 'flex', flexDirection: 'column',
+        boxShadow: '0 24px 48px rgba(0,0,0,0.4)',
+        border: '1px solid #333'
+      }}>
+        {/* Modal Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem', borderBottom: '1px solid #333' }}>
+          <div>
+            <h2 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 600 }}>{title} Raw Output</h2>
+            <div style={{ 
+              marginTop: '0.5rem', display: 'inline-block', padding: '4px 10px', 
+              backgroundColor: '#2d2d2d', borderRadius: '4px', fontSize: '0.85rem', color: '#a0a0a0' 
+            }}>
+              {badge}
+            </div>
+          </div>
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            <button onClick={handleCopy} style={{
+              display: 'flex', alignItems: 'center', gap: '0.5rem',
+              padding: '8px 16px', borderRadius: '6px', border: '1px solid #444',
+              backgroundColor: '#2d2d2d', color: '#fff', cursor: 'pointer', transition: 'all 0.2s'
+            }}>
+              {copied ? <Check size={16} color="#4ade80" /> : <Copy size={16} />}
+              {copied ? 'Copied!' : 'Copy HTML'}
+            </button>
+            <button onClick={onClose} style={{
+              background: 'transparent', border: 'none', color: '#888', cursor: 'pointer'
+            }}>
+              <X size={24} />
+            </button>
+          </div>
+        </div>
+        
+        {/* Modal Body (Code) */}
+        <div style={{ padding: '1.5rem', overflow: 'auto', flexGrow: 1 }}>
+          <pre style={{ margin: 0, fontFamily: 'monospace', fontSize: '13px', lineHeight: '1.5', color: '#e4e4e4', whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
+            <code>{html}</code>
+          </pre>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   const [activeTheme, setActiveTheme] = useState(saasTheme);
+  const [activeFlow, setActiveFlow] = useState<'welcome' | 'shipped'>('welcome');
   const [isClient, setIsClient] = useState(false);
+  const [inspecting, setInspecting] = useState<'email' | 'web' | 'pdf' | null>(null);
 
   React.useEffect(() => {
     setIsClient(true);
   }, []);
 
   const themes = [saasTheme, ecommerceTheme, darkTheme];
+  const flows = [
+    { id: 'welcome', label: 'Welcome Flow' },
+    { id: 'shipped', label: 'Order Shipped Flow' }
+  ];
+
+  const currentContent = activeFlow === 'welcome' ? onboardingContent : orderShippedContent;
+  const currentReceiptContent = activeFlow === 'welcome' ? receiptContent : orderShippedReceiptContent;
 
   const injectStyles = (html: string, bgColor: string) => {
     const css = `
@@ -34,67 +120,132 @@ export default function Home() {
     return html.replace('</head>', `<style>${css}</style></head>`);
   };
 
-  // Render to HTML only on client to prevent hydration mismatch (Unlayer generates random IDs)
-  const emailHtml = isClient ? injectStyles(renderToHtml(<WelcomeEmail theme={activeTheme} content={onboardingContent} />), activeTheme.colors.background) : '';
-  const webHtml = isClient ? injectStyles(renderToHtml(<LandingPage theme={activeTheme} content={onboardingContent} />), activeTheme.colors.background) : '';
-  const pdfHtml = isClient ? injectStyles(renderToHtml(<Receipt theme={activeTheme} content={receiptContent} />), activeTheme.colors.background) : '';
+  // Render to HTML only on client to prevent hydration mismatch
+  const rawEmailHtml = isClient ? renderToHtml(<WelcomeEmail theme={activeTheme} content={currentContent} />) : '';
+  const emailHtml = injectStyles(rawEmailHtml, activeTheme.colors.background);
+  
+  const rawWebHtml = isClient ? renderToHtml(<LandingPage theme={activeTheme} content={currentContent} />) : '';
+  const webHtml = injectStyles(rawWebHtml, activeTheme.colors.background);
+  
+  const rawPdfHtml = isClient ? renderToHtml(<Receipt theme={activeTheme} content={currentReceiptContent} />) : '';
+  const pdfHtml = injectStyles(rawPdfHtml, activeTheme.colors.background);
+
+  const getInspectData = () => {
+    switch (inspecting) {
+      case 'email':
+        return { html: rawEmailHtml, title: 'Welcome Email', badge: '📧 Output Mode: Outlook-Safe Table HTML (Nested <table> tags)' };
+      case 'web':
+        return { html: rawWebHtml, title: 'Landing Page', badge: '🌐 Output Mode: Responsive Flexbox HTML (Modern <div> & CSS Grid/Flex)' };
+      case 'pdf':
+        return { html: rawPdfHtml, title: 'PDF Receipt', badge: '📄 Output Mode: Print-Ready Document Layout (Standardized XHTML document)' };
+      default:
+        return { html: '', title: '', badge: '' };
+    }
+  };
+
+  const inspectData = getInspectData();
 
   return (
     <main style={{ padding: '3rem 2rem', maxWidth: '1600px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       
+      {/* Inspect Modal */}
+      <InspectModal 
+        isOpen={inspecting !== null} 
+        onClose={() => setInspecting(null)} 
+        html={inspectData.html} 
+        title={inspectData.title}
+        badge={inspectData.badge}
+      />
+
       {/* Premium Header */}
       <header className="glass-panel" style={{ 
         display: 'flex', 
         justifyContent: 'space-between', 
         alignItems: 'center', 
         padding: '1.5rem 3rem',
-        borderRadius: '100px', // pill shape
+        borderRadius: '100px',
         position: 'sticky',
         top: '1rem',
-        zIndex: 10
+        zIndex: 10,
+        flexWrap: 'wrap',
+        gap: '1rem'
       }}>
         <div>
           <h1 style={{ margin: 0, fontSize: '1.8rem', fontWeight: 700, letterSpacing: '-0.02em', background: 'linear-gradient(90deg, #111, #555)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Elementary Kit</h1>
           <p style={{ margin: '2px 0 0 0', color: '#4a5568', fontSize: '1rem', fontWeight: 500 }}>One component tree. Every surface.</p>
         </div>
         
-        <div style={{ display: 'flex', gap: '12px', background: 'rgba(255,255,255,0.5)', padding: '6px', borderRadius: '50px', border: '1px solid rgba(255,255,255,0.8)' }}>
-          {themes.map((t) => {
-            const isActive = activeTheme.name === t.name;
-            return (
-              <button
-                key={t.name}
-                onClick={() => setActiveTheme(t)}
-                style={{
-                  padding: '10px 24px',
-                  borderRadius: '50px',
-                  border: 'none',
-                  backgroundColor: isActive ? t.colors.primary : 'transparent',
-                  color: isActive ? '#fff' : '#4a5568',
-                  cursor: 'pointer',
-                  fontWeight: 600,
-                  fontSize: '0.95rem',
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                  boxShadow: isActive ? `0 4px 14px 0 ${t.colors.primary}66` : 'none',
-                  transform: isActive ? 'scale(1.02)' : 'scale(1)'
-                }}
-                onMouseOver={(e) => {
-                  if (!isActive) {
-                    e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.8)';
-                    e.currentTarget.style.color = '#111';
-                  }
-                }}
-                onMouseOut={(e) => {
-                  if (!isActive) {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                    e.currentTarget.style.color = '#4a5568';
-                  }
-                }}
-              >
-                {t.name}
-              </button>
-            );
-          })}
+        <div style={{ display: 'flex', gap: '24px', alignItems: 'center', flexWrap: 'wrap' }}>
+          
+          {/* Template Flow Switcher */}
+          <div style={{ display: 'flex', gap: '8px', background: 'rgba(0,0,0,0.05)', padding: '6px', borderRadius: '50px', border: '1px solid rgba(0,0,0,0.1)' }}>
+            {flows.map((f) => {
+              const isActive = activeFlow === f.id;
+              return (
+                <button
+                  key={f.id}
+                  onClick={() => setActiveFlow(f.id as any)}
+                  style={{
+                    padding: '8px 20px',
+                    borderRadius: '50px',
+                    border: 'none',
+                    backgroundColor: isActive ? '#fff' : 'transparent',
+                    color: isActive ? '#111' : '#666',
+                    cursor: 'pointer',
+                    fontWeight: 600,
+                    fontSize: '0.9rem',
+                    transition: 'all 0.2s',
+                    boxShadow: isActive ? '0 2px 8px rgba(0,0,0,0.05)' : 'none'
+                  }}
+                >
+                  {f.label}
+                </button>
+              );
+            })}
+          </div>
+
+          <div style={{ width: '1px', height: '24px', backgroundColor: 'rgba(0,0,0,0.1)' }}></div>
+
+          {/* Theme Switcher */}
+          <div style={{ display: 'flex', gap: '8px', background: 'rgba(255,255,255,0.5)', padding: '6px', borderRadius: '50px', border: '1px solid rgba(255,255,255,0.8)' }}>
+            {themes.map((t) => {
+              const isActive = activeTheme.name === t.name;
+              return (
+                <button
+                  key={t.name}
+                  onClick={() => setActiveTheme(t)}
+                  style={{
+                    padding: '10px 24px',
+                    borderRadius: '50px',
+                    border: 'none',
+                    backgroundColor: isActive ? t.colors.primary : 'transparent',
+                    color: isActive ? '#fff' : '#4a5568',
+                    cursor: 'pointer',
+                    fontWeight: 600,
+                    fontSize: '0.95rem',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    boxShadow: isActive ? `0 4px 14px 0 ${t.colors.primary}66` : 'none',
+                    transform: isActive ? 'scale(1.02)' : 'scale(1)'
+                  }}
+                  onMouseOver={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.8)';
+                      e.currentTarget.style.color = '#111';
+                    }
+                  }}
+                  onMouseOut={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.color = '#4a5568';
+                    }
+                  }}
+                >
+                  {t.name}
+                </button>
+              );
+            })}
+          </div>
+
         </div>
       </header>
       
@@ -103,34 +254,49 @@ export default function Home() {
         
         {/* Email Preview */}
         <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', padding: '1.5rem', transition: 'transform 0.3s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem', padding: '0 0.5rem' }}>
-            <Mail size={24} color={activeTheme.colors.primary} />
-            <h2 style={{ fontSize: '1.3rem', fontWeight: 600, color: '#2d3748', margin: 0 }}>Welcome Email</h2>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', padding: '0 0.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <Mail size={24} color={activeTheme.colors.primary} />
+              <h2 style={{ fontSize: '1.3rem', fontWeight: 600, color: '#2d3748', margin: 0 }}>Welcome Email</h2>
+            </div>
+            <button onClick={() => setInspecting('email')} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(0,0,0,0.05)', border: 'none', padding: '6px 12px', borderRadius: '50px', fontSize: '0.85rem', fontWeight: 600, color: '#4a5568', cursor: 'pointer', transition: 'all 0.2s' }} onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(0,0,0,0.1)'; e.currentTarget.style.color = '#111'; }} onMouseOut={(e) => { e.currentTarget.style.background = 'rgba(0,0,0,0.05)'; e.currentTarget.style.color = '#4a5568'; }}>
+              <Code size={16} /> Inspect Markup
+            </button>
           </div>
           <div style={{ flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', backgroundColor: activeTheme.colors.background, boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.02)' }}>
-            <iframe key={`email-${activeTheme.name}`} srcDoc={emailHtml} style={{ width: '100%', height: '100%', border: 'none' }} title="Email Preview" />
+            <iframe key={`email-${activeTheme.name}-${activeFlow}`} srcDoc={emailHtml} style={{ width: '100%', height: '100%', border: 'none' }} title="Email Preview" />
           </div>
         </div>
 
         {/* Web Preview */}
         <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', padding: '1.5rem', transition: 'transform 0.3s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem', padding: '0 0.5rem' }}>
-            <Globe size={24} color={activeTheme.colors.primary} />
-            <h2 style={{ fontSize: '1.3rem', fontWeight: 600, color: '#2d3748', margin: 0 }}>Landing Page</h2>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', padding: '0 0.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <Globe size={24} color={activeTheme.colors.primary} />
+              <h2 style={{ fontSize: '1.3rem', fontWeight: 600, color: '#2d3748', margin: 0 }}>Landing Page</h2>
+            </div>
+            <button onClick={() => setInspecting('web')} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(0,0,0,0.05)', border: 'none', padding: '6px 12px', borderRadius: '50px', fontSize: '0.85rem', fontWeight: 600, color: '#4a5568', cursor: 'pointer', transition: 'all 0.2s' }} onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(0,0,0,0.1)'; e.currentTarget.style.color = '#111'; }} onMouseOut={(e) => { e.currentTarget.style.background = 'rgba(0,0,0,0.05)'; e.currentTarget.style.color = '#4a5568'; }}>
+              <Code size={16} /> Inspect Markup
+            </button>
           </div>
           <div style={{ flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', backgroundColor: activeTheme.colors.background, boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.02)' }}>
-            <iframe key={`web-${activeTheme.name}`} srcDoc={webHtml} style={{ width: '100%', height: '100%', border: 'none' }} title="Web Preview" />
+            <iframe key={`web-${activeTheme.name}-${activeFlow}`} srcDoc={webHtml} style={{ width: '100%', height: '100%', border: 'none' }} title="Web Preview" />
           </div>
         </div>
 
         {/* PDF Preview */}
         <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', padding: '1.5rem', transition: 'transform 0.3s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem', padding: '0 0.5rem' }}>
-            <FileText size={24} color={activeTheme.colors.primary} />
-            <h2 style={{ fontSize: '1.3rem', fontWeight: 600, color: '#2d3748', margin: 0 }}>PDF Receipt</h2>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', padding: '0 0.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <FileText size={24} color={activeTheme.colors.primary} />
+              <h2 style={{ fontSize: '1.3rem', fontWeight: 600, color: '#2d3748', margin: 0 }}>PDF Receipt</h2>
+            </div>
+            <button onClick={() => setInspecting('pdf')} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(0,0,0,0.05)', border: 'none', padding: '6px 12px', borderRadius: '50px', fontSize: '0.85rem', fontWeight: 600, color: '#4a5568', cursor: 'pointer', transition: 'all 0.2s' }} onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(0,0,0,0.1)'; e.currentTarget.style.color = '#111'; }} onMouseOut={(e) => { e.currentTarget.style.background = 'rgba(0,0,0,0.05)'; e.currentTarget.style.color = '#4a5568'; }}>
+              <Code size={16} /> Inspect Markup
+            </button>
           </div>
           <div style={{ flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', backgroundColor: activeTheme.colors.background, boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.02)' }}>
-            <iframe key={`pdf-${activeTheme.name}`} srcDoc={pdfHtml} style={{ width: '100%', height: '100%', border: 'none' }} title="PDF Preview" />
+            <iframe key={`pdf-${activeTheme.name}-${activeFlow}`} srcDoc={pdfHtml} style={{ width: '100%', height: '100%', border: 'none' }} title="PDF Preview" />
           </div>
         </div>
         

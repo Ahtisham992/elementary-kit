@@ -1,5 +1,6 @@
 import React from 'react';
-import { Row, Column, Button } from '@unlayer/react-elements';
+import { Row, Column, Button as BaseButton } from '@unlayer/react-elements';
+const Button = BaseButton as any;
 import { Theme } from '../../theme/tokens';
 import { ContentPayload } from '../../content/onboarding';
 

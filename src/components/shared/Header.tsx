@@ -7,7 +7,7 @@ export function Header({ theme, content }: { theme: Theme; content: ContentPaylo
   return (
     <Row>
       <Column>
-        <Heading color={theme.colors.primary} textAlign="center" fontSize="24px" padding={theme.spacing.base}>
+        <Heading color={theme.colors.primary} textAlign="center" fontSize="24px">
           {content.headline}
         </Heading>
       </Column>

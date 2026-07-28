@@ -23,4 +23,28 @@ export const receiptContent = {
   ],
 };
 
+export const orderShippedContent = {
+  headline: "Your Order is Shipped",
+  bodyCopy: "Great news! Your package is on its way. You can track your shipment using the link below.",
+  ctaText: "Track Package",
+  ctaUrl: "https://github.com/Ahtisham992/elementary-kit",
+  lineItems: [
+    { label: "Carrier", value: "FedEx" },
+    { label: "Tracking #", value: "9876543210" },
+  ],
+};
+
+export const orderShippedReceiptContent = {
+  headline: "Order Invoice",
+  bodyCopy: "Here is your invoice for order #EK-9939 shipped today.",
+  ctaText: "Download Invoice",
+  ctaUrl: "https://github.com/Ahtisham992/elementary-kit",
+  lineItems: [
+    { label: "Mechanical Keyboard", value: "$129.00" },
+    { label: "Shipping", value: "$0.00" },
+    { label: "Tax (8%)", value: "$10.32" },
+    { label: "Total", value: "$139.32" },
+  ],
+};
+
 export type ContentPayload = typeof onboardingContent;
