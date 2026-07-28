@@ -2,7 +2,7 @@
 
 > One component tree. Every surface.
 
-🚀 **Live Demo:** [elementary-kit.vercel.app](https://elementary-kit.vercel.app)
+**Live Demo:** [elementary-kit.vercel.app](https://elementary-kit.vercel.app)
 
 A themeable onboarding content system — welcome email, landing page, and PDF receipt — all rendered from the **same** React component tree using [Unlayer Elements](https://github.com/unlayer/elements). Switch themes and watch all three surfaces update together.
 

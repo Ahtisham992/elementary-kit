@@ -158,24 +158,13 @@ export default function Home() {
       />
 
       {/* Premium Header */}
-      <header className="glass-panel" style={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center', 
-        padding: '1.5rem 3rem',
-        borderRadius: '100px',
-        position: 'sticky',
-        top: '1rem',
-        zIndex: 10,
-        flexWrap: 'wrap',
-        gap: '1rem'
-      }}>
+      <header className="glass-panel app-header">
         <div>
           <h1 style={{ margin: 0, fontSize: '1.8rem', fontWeight: 700, letterSpacing: '-0.02em', background: 'linear-gradient(90deg, #111, #555)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Elementary Kit</h1>
           <p style={{ margin: '2px 0 0 0', color: '#4a5568', fontSize: '1rem', fontWeight: 500 }}>One component tree. Every surface.</p>
         </div>
         
-        <div style={{ display: 'flex', gap: '24px', alignItems: 'center', flexWrap: 'wrap' }}>
+        <div className="header-actions" style={{ display: 'flex', gap: '24px', alignItems: 'center', flexWrap: 'wrap' }}>
           
           {/* Template Flow Switcher */}
           <div style={{ display: 'flex', gap: '8px', background: 'rgba(0,0,0,0.05)', padding: '6px', borderRadius: '50px', border: '1px solid rgba(0,0,0,0.1)' }}>
@@ -184,6 +173,7 @@ export default function Home() {
               return (
                 <button
                   key={f.id}
+                  className="switcher-btn"
                   onClick={() => setActiveFlow(f.id as any)}
                   style={{
                     padding: '8px 20px',
@@ -213,6 +203,7 @@ export default function Home() {
               return (
                 <button
                   key={t.name}
+                  className="switcher-btn"
                   onClick={() => setActiveTheme(t)}
                   style={{
                     padding: '10px 24px',
@@ -250,10 +241,10 @@ export default function Home() {
       </header>
       
       {/* Surfaces Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem', height: '75vh', minHeight: '650px' }}>
+      <div className="surfaces-grid">
         
         {/* Email Preview */}
-        <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', padding: '1.5rem', transition: 'transform 0.3s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
+        <div className="glass-panel surface-card" style={{ display: 'flex', flexDirection: 'column', padding: '1.5rem', transition: 'transform 0.3s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', padding: '0 0.5rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
               <Mail size={24} color={activeTheme.colors.primary} />
@@ -269,7 +260,7 @@ export default function Home() {
         </div>
 
         {/* Web Preview */}
-        <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', padding: '1.5rem', transition: 'transform 0.3s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
+        <div className="glass-panel surface-card" style={{ display: 'flex', flexDirection: 'column', padding: '1.5rem', transition: 'transform 0.3s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', padding: '0 0.5rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
               <Globe size={24} color={activeTheme.colors.primary} />
@@ -285,7 +276,7 @@ export default function Home() {
         </div>
 
         {/* PDF Preview */}
-        <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', padding: '1.5rem', transition: 'transform 0.3s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
+        <div className="glass-panel surface-card" style={{ display: 'flex', flexDirection: 'column', padding: '1.5rem', transition: 'transform 0.3s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', padding: '0 0.5rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
               <FileText size={24} color={activeTheme.colors.primary} />

@@ -54,3 +54,91 @@ body {
   box-shadow: var(--glass-shadow);
   border-radius: 20px;
 }
+
+/* Responsive Layout */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 3rem;
+  border-radius: 100px;
+  position: sticky;
+  top: 1rem;
+  z-index: 10;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.surfaces-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  height: 75vh;
+  min-height: 650px;
+}
+
+@media (max-width: 1024px) {
+  .surfaces-grid {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  
+  .app-header {
+    padding: 1.5rem 1rem;
+    border-radius: 30px;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .app-header h1 {
+    font-size: 1.5rem !important;
+  }
+
+  .header-actions {
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem !important;
+  }
+
+  .header-actions > div {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .header-actions button {
+    padding: 8px 16px !important;
+    font-size: 0.85rem !important;
+    white-space: nowrap;
+  }
+
+  .surface-card {
+    height: 75vh;
+    min-height: 550px;
+  }
+
+  /* Scale iframe container to prevent cropping of fixed-width emails */
+  .surface-card iframe {
+    width: 133% !important;
+    height: 133% !important;
+    transform: scale(0.75);
+    transform-origin: top left;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header {
+    padding: 1rem;
+    border-radius: 20px;
+  }
+  
+  .surface-card iframe {
+    width: 166% !important;
+    height: 166% !important;
+    transform: scale(0.60);
+    transform-origin: top left;
+  }
+}
