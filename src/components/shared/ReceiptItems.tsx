@@ -6,33 +6,71 @@ import { ContentPayload } from '../../content/onboarding';
 export function ReceiptItems({ theme, content }: { theme: Theme; content: ContentPayload }) {
   return (
     <>
-      {content.lineItems.map((item, i) => (
-        <Row key={i}>
-          <Column>
-            <Paragraph
-              color={theme.colors.text}
-              fontFamily={theme.fontFamily}
-              fontSize="16px"
-              lineHeight="1.5"
-              padding="8px 20px"
-            >
-              <span style={{ fontWeight: i === content.lineItems.length - 1 ? 700 : 400 }}>{item.label}</span>
-            </Paragraph>
-          </Column>
-          <Column>
-            <Paragraph
-              color={theme.colors.text}
-              fontFamily={theme.fontFamily}
-              fontSize="16px"
-              lineHeight="1.5"
-              padding="8px 20px"
-              textAlign="right"
-            >
-              <span style={{ fontWeight: i === content.lineItems.length - 1 ? 700 : 400 }}>{item.value}</span>
-            </Paragraph>
-          </Column>
-        </Row>
-      ))}
+      {/* Separator line */}
+      <Row>
+        <Column>
+          <Paragraph
+            color={theme.colors.text}
+            fontFamily={theme.fontFamily}
+            fontSize="12px"
+            lineHeight="0.5"
+            padding="4px 20px"
+          >
+            ————————————————————
+          </Paragraph>
+        </Column>
+      </Row>
+
+      {content.lineItems.map((item, i) => {
+        const isLast = i === content.lineItems.length - 1;
+        // Format as "Label ............ $Value" using dots as filler
+        const label = item.label;
+        const value = item.value;
+        return (
+          <Row key={i}>
+            <Column>
+              <Paragraph
+                color={theme.colors.text}
+                fontFamily={theme.fontFamily}
+                fontSize={isLast ? "16px" : "14px"}
+                lineHeight="1.8"
+                padding="0px 20px"
+                fontWeight={isLast ? 700 : 400}
+              >
+                {label}
+              </Paragraph>
+            </Column>
+            <Column>
+              <Paragraph
+                color={theme.colors.text}
+                fontFamily={theme.fontFamily}
+                fontSize={isLast ? "16px" : "14px"}
+                lineHeight="1.8"
+                padding="0px 20px"
+                textAlign="right"
+                fontWeight={isLast ? 700 : 400}
+              >
+                {value}
+              </Paragraph>
+            </Column>
+          </Row>
+        );
+      })}
+
+      {/* Bottom separator */}
+      <Row>
+        <Column>
+          <Paragraph
+            color={theme.colors.text}
+            fontFamily={theme.fontFamily}
+            fontSize="12px"
+            lineHeight="0.5"
+            padding="4px 20px"
+          >
+            ————————————————————
+          </Paragraph>
+        </Column>
+      </Row>
     </>
   );
 }

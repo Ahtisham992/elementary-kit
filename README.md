@@ -4,8 +4,7 @@
 
 A themeable onboarding content system — welcome email, landing page, and PDF receipt — all rendered from the **same** React component tree using [Unlayer Elements](https://github.com/unlayer/elements). Switch themes and watch all three surfaces update together.
 
-!![demo](./docs/demo.webp)
-
+![demo](./docs/demo.webp)
 
 ## Why
 
@@ -15,16 +14,16 @@ Most teams hand-code emails, web pages, and PDFs separately, even when they shar
 
 | Surface | Rendered as |
 |---|---|
-| 📧 Welcome email | Outlook-safe table HTML |
-| 🌐 Landing page | Responsive flexbox HTML |
-| 📄 PDF receipt | Print-ready document |
+| Welcome email | Outlook-safe table HTML |
+| Landing page | Responsive flexbox HTML |
+| PDF receipt | Print-ready document |
 
 Plus a live **theme switcher** with 3 themes: SaaS, E-commerce, Dark Mode.
 
 ## Quick start
 
 ```bash
-git clone https://github.com/<your-username>/elementary-kit.git
+git clone https://github.com/Ahtisham992/elementary-kit.git
 cd elementary-kit
 npm install
 npm run dev        # launches the demo app with the theme switcher
@@ -48,7 +47,7 @@ npm run render-all # renders email.html, page.html, and receipt.pdf to /output
 
 ## License
 
-MIT
+[MIT](./LICENSE)
 
 ---
 
