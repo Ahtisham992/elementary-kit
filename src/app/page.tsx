@@ -9,7 +9,7 @@ import { saasTheme } from '../theme/saas';
 import { ecommerceTheme } from '../theme/ecommerce';
 import { darkTheme } from '../theme/dark';
 import { Mail, Globe, FileText } from 'lucide-react';
-import { onboardingContent } from '../content/onboarding';
+import { onboardingContent, receiptContent } from '../content/onboarding';
 
 export default function Home() {
   const [activeTheme, setActiveTheme] = useState(saasTheme);
@@ -26,7 +26,7 @@ export default function Home() {
   // Render to HTML only on client to prevent hydration mismatch (Unlayer generates random IDs)
   const emailHtml = isClient ? forceBg(renderToHtml(<WelcomeEmail theme={activeTheme} content={onboardingContent} />), activeTheme.colors.background) : '';
   const webHtml = isClient ? forceBg(renderToHtml(<LandingPage theme={activeTheme} content={onboardingContent} />), activeTheme.colors.background) : '';
-  const pdfHtml = isClient ? forceBg(renderToHtml(<Receipt theme={activeTheme} content={onboardingContent} />), activeTheme.colors.background) : '';
+  const pdfHtml = isClient ? forceBg(renderToHtml(<Receipt theme={activeTheme} content={receiptContent} />), activeTheme.colors.background) : '';
 
   return (
     <main style={{ padding: '3rem 2rem', maxWidth: '1600px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '2rem' }}>

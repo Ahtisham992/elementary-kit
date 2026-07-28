@@ -1,9 +1,9 @@
 import React from 'react';
 import { Row, Column, Button } from '@unlayer/react-elements';
 import { Theme } from '../../theme/tokens';
-import { OnboardingContent } from '../../content/onboarding';
+import { ContentPayload } from '../../content/onboarding';
 
-export function CTAButton({ theme, content }: { theme: Theme; content: OnboardingContent }) {
+export function CTAButton({ theme, content }: { theme: Theme; content: ContentPayload }) {
   return (
     <Row>
       <Column>

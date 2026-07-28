@@ -4,9 +4,9 @@ import { Header } from '../../components/shared/Header';
 import { HeroSection } from '../../components/shared/HeroSection';
 import { CTAButton } from '../../components/shared/CTAButton';
 import { Theme } from '../../theme/tokens';
-import { OnboardingContent } from '../../content/onboarding';
+import { ContentPayload } from '../../content/onboarding';
 
-export function LandingPage({ theme, content }: { theme: Theme; content: OnboardingContent }) {
+export function LandingPage({ theme, content }: { theme: Theme; content: ContentPayload }) {
   return (
     <Page backgroundColor={theme.colors.background} fontFamily={theme.fontFamily}>
       <Header theme={theme} content={content} />

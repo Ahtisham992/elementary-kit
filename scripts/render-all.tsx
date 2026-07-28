@@ -8,7 +8,7 @@ import { WelcomeEmail } from '../src/surfaces/email/WelcomeEmail';
 import { LandingPage } from '../src/surfaces/web/LandingPage';
 import { Receipt } from '../src/surfaces/pdf/Receipt';
 import { saasTheme } from '../src/theme/saas';
-import { onboardingContent } from '../src/content/onboarding';
+import { onboardingContent, receiptContent } from '../src/content/onboarding';
 
 const OUT_DIR = path.join(process.cwd(), 'output');
 
@@ -20,7 +20,7 @@ async function main() {
   console.log('Rendering surfaces to HTML strings...');
   const emailHtml = renderToHtml(<WelcomeEmail theme={saasTheme} content={onboardingContent} />);
   const webHtml = renderToHtml(<LandingPage theme={saasTheme} content={onboardingContent} />);
-  const pdfHtml = renderToHtml(<Receipt theme={saasTheme} content={onboardingContent} />);
+  const pdfHtml = renderToHtml(<Receipt theme={saasTheme} content={receiptContent} />);
 
   console.log('Writing email.html...');
   fs.writeFileSync(path.join(OUT_DIR, 'email.html'), emailHtml);
