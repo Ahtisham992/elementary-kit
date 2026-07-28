@@ -7,9 +7,6 @@ export const onboardingContent = {
     { label: "Plan", value: "Pro" },
     { label: "Price", value: "$0.00/mo" },
   ],
-  brandColors: {
-    primary: "#0070f3",
-    background: "#ffffff",
-    text: "#333333",
-  },
 };
+
+export type OnboardingContent = typeof onboardingContent;
