@@ -8,6 +8,7 @@ import { Receipt } from '../surfaces/pdf/Receipt';
 import { saasTheme } from '../theme/saas';
 import { ecommerceTheme } from '../theme/ecommerce';
 import { darkTheme } from '../theme/dark';
+import { Mail, Globe, FileText } from 'lucide-react';
 import { onboardingContent } from '../content/onboarding';
 
 export default function Home() {
@@ -91,8 +92,8 @@ export default function Home() {
         
         {/* Email Preview */}
         <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', padding: '1.5rem', transition: 'transform 0.3s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1.2rem' }}>
-            <span style={{ fontSize: '1.5rem' }}>📧</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem', padding: '0 0.5rem' }}>
+            <Mail size={24} color={activeTheme.colors.primary} />
             <h2 style={{ fontSize: '1.3rem', fontWeight: 600, color: '#2d3748', margin: 0 }}>Welcome Email</h2>
           </div>
           <div style={{ flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', backgroundColor: activeTheme.colors.background, boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.02)' }}>
@@ -102,8 +103,8 @@ export default function Home() {
 
         {/* Web Preview */}
         <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', padding: '1.5rem', transition: 'transform 0.3s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1.2rem' }}>
-            <span style={{ fontSize: '1.5rem' }}>🌐</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem', padding: '0 0.5rem' }}>
+            <Globe size={24} color={activeTheme.colors.primary} />
             <h2 style={{ fontSize: '1.3rem', fontWeight: 600, color: '#2d3748', margin: 0 }}>Landing Page</h2>
           </div>
           <div style={{ flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', backgroundColor: activeTheme.colors.background, boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.02)' }}>
@@ -113,11 +114,11 @@ export default function Home() {
 
         {/* PDF Preview */}
         <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', padding: '1.5rem', transition: 'transform 0.3s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1.2rem' }}>
-            <span style={{ fontSize: '1.5rem' }}>📄</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem', padding: '0 0.5rem' }}>
+            <FileText size={24} color={activeTheme.colors.primary} />
             <h2 style={{ fontSize: '1.3rem', fontWeight: 600, color: '#2d3748', margin: 0 }}>PDF Receipt</h2>
           </div>
-          <div style={{ flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', backgroundColor: '#fff', boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.02)' }}>
+          <div style={{ flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', backgroundColor: activeTheme.colors.background, boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.02)' }}>
             <iframe key={`pdf-${activeTheme.name}`} srcDoc={pdfHtml} style={{ width: '100%', height: '100%', border: 'none' }} title="PDF Preview" />
           </div>
         </div>
