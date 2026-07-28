@@ -1,8 +1,17 @@
-import { renderToHtml } from '@unlayer/react-elements';
-import { WelcomeEmail } from '../src/surfaces/email/WelcomeEmail';
-import { saasTheme } from '../src/theme/saas';
-import { onboardingContent } from '../src/content/onboarding';
+import { renderToHtml, Email, Page } from '@unlayer/react-elements';
 import React from 'react';
 
-const html = renderToHtml(<WelcomeEmail theme={saasTheme} content={onboardingContent} />);
-console.log(html);
+const emailHtml = renderToHtml(
+  <Email backgroundColor="#121212">
+    Hello
+  </Email>
+);
+
+const pageHtml = renderToHtml(
+  <Page backgroundColor="#121212">
+    Hello
+  </Page>
+);
+
+console.log("PAGE HTML:");
+console.log(pageHtml);

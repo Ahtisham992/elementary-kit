@@ -93,7 +93,7 @@ export default function Home() {
             <span style={{ fontSize: '1.5rem' }}>📧</span>
             <h2 style={{ fontSize: '1.3rem', fontWeight: 600, color: '#2d3748', margin: 0 }}>Welcome Email</h2>
           </div>
-          <div style={{ flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', backgroundColor: '#fff', boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.02)' }}>
+          <div style={{ flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', backgroundColor: activeTheme.colors.background, boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.02)' }}>
             <iframe key={`email-${activeTheme.name}`} srcDoc={emailHtml} style={{ width: '100%', height: '100%', border: 'none' }} title="Email Preview" />
           </div>
         </div>
@@ -104,7 +104,7 @@ export default function Home() {
             <span style={{ fontSize: '1.5rem' }}>🌐</span>
             <h2 style={{ fontSize: '1.3rem', fontWeight: 600, color: '#2d3748', margin: 0 }}>Landing Page</h2>
           </div>
-          <div style={{ flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', backgroundColor: '#fff', boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.02)' }}>
+          <div style={{ flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', backgroundColor: activeTheme.colors.background, boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.02)' }}>
             <iframe key={`web-${activeTheme.name}`} srcDoc={webHtml} style={{ width: '100%', height: '100%', border: 'none' }} title="Web Preview" />
           </div>
         </div>
