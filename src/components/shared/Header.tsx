@@ -7,7 +7,7 @@ export function Header({ theme, content }: { theme: Theme; content: OnboardingCo
   return (
     <Row>
       <Column>
-        <Heading style={{ color: theme.colors.primary, textAlign: 'center', fontSize: '24px', padding: theme.spacing.base }}>
+        <Heading color={theme.colors.primary} textAlign="center" fontSize="24px" padding={theme.spacing.base}>
           {content.headline}
         </Heading>
       </Column>

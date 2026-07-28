@@ -7,7 +7,7 @@ export function HeroSection({ theme, content }: { theme: Theme; content: Onboard
   return (
     <Row>
       <Column>
-        <Paragraph style={{ color: theme.colors.text, fontSize: '16px', lineHeight: '1.6', padding: theme.spacing.base }}>
+        <Paragraph color={theme.colors.text} fontSize="16px" lineHeight="1.6" padding={theme.spacing.base}>
           {content.bodyCopy}
         </Paragraph>
       </Column>

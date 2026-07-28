@@ -8,7 +8,7 @@ import { OnboardingContent } from '../../content/onboarding';
 
 export function Receipt({ theme, content }: { theme: Theme; content: OnboardingContent }) {
   return (
-    <Document style={{ backgroundColor: theme.colors.background, fontFamily: theme.fontFamily }}>
+    <Document backgroundColor={theme.colors.background} fontFamily={theme.fontFamily}>
       <Header theme={theme} content={content} />
       <HeroSection theme={theme} content={content} />
       <CTAButton theme={theme} content={content} />

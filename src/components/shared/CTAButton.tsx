@@ -9,15 +9,11 @@ export function CTAButton({ theme, content }: { theme: Theme; content: Onboardin
       <Column>
         <Button
           href={content.ctaUrl}
-          style={{
-            backgroundColor: theme.colors.primary,
-            color: '#ffffff',
-            padding: '12px 24px',
-            borderRadius: '6px',
-            fontWeight: 'bold',
-            marginTop: theme.spacing.base,
-            marginBottom: theme.spacing.base,
-          }}
+          backgroundColor={theme.colors.primary}
+          color="#ffffff"
+          padding="12px 24px"
+          borderRadius="6px"
+          fontWeight={700}
         >
           {content.ctaText}
         </Button>
