@@ -8,7 +8,7 @@ import { Receipt } from '../surfaces/pdf/Receipt';
 import { saasTheme } from '../theme/saas';
 import { ecommerceTheme } from '../theme/ecommerce';
 import { darkTheme } from '../theme/dark';
-import { LayoutTemplate, Droplets, Palette, Code, X, Mail, Globe, FileText, Info, Check, Copy } from 'lucide-react';
+import { LayoutTemplate, Droplets, Palette, Code, X, Mail, Globe, FileText, Info, Check, Copy, Menu } from 'lucide-react';
 import { onboardingContent, receiptContent, orderShippedContent, orderShippedReceiptContent, ContentPayload } from '../content/onboarding';
 import { Theme } from '../theme/tokens';
 
@@ -127,6 +127,7 @@ export default function Home() {
   });
 
   const [presets, setPresets] = useState<SavedPreset[]>([]);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   React.useEffect(() => {
     setIsClient(true);
@@ -284,7 +285,23 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="header-actions" style={{ display: 'flex', gap: '24px', alignItems: 'center', flexWrap: 'wrap' }}>
+        <button className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(true)}>
+          <Menu size={24} color="#111" />
+        </button>
+
+        {isMobileMenuOpen && (
+          <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1001, backdropFilter: 'blur(2px)' }} onClick={() => setIsMobileMenuOpen(false)}></div>
+        )}
+
+        <div className={`header-actions-wrapper ${isMobileMenuOpen ? 'open' : ''}`}>
+          <div className="mobile-menu-header" style={{ display: 'none', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+            <span style={{ fontWeight: 600, fontSize: '1.2rem' }}>Menu</span>
+            <button onClick={() => setIsMobileMenuOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+              <X size={24} color="#111" />
+            </button>
+          </div>
+          
+          <div className="header-actions" style={{ display: 'flex', gap: '24px', alignItems: 'center', flexWrap: 'wrap' }}>
 
           {/* Template Flow Switcher */}
           <div style={{ display: 'flex', gap: '8px', background: 'rgba(0,0,0,0.05)', padding: '6px', borderRadius: '50px', border: '1px solid rgba(0,0,0,0.1)' }}>
@@ -294,7 +311,7 @@ export default function Home() {
                 <button
                   key={f.id}
                   className="switcher-btn"
-                  onClick={() => setActiveFlow(f.id as any)}
+                  onClick={() => { setActiveFlow(f.id as any); setIsMobileMenuOpen(false); }}
                   style={{
                     padding: '8px 20px',
                     borderRadius: '50px',
@@ -324,7 +341,7 @@ export default function Home() {
                 <button
                   key={t.name}
                   className="switcher-btn"
-                  onClick={() => setActiveTheme(t)}
+                  onClick={() => { setActiveTheme(t); setIsMobileMenuOpen(false); }}
                   style={{
                     padding: '10px 24px',
                     borderRadius: '50px',
@@ -357,10 +374,11 @@ export default function Home() {
             })}
           </div>
 
-          <button onClick={() => setShowInfo(true)} style={{ background: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.8)', borderRadius: '50px', padding: '0 16px', height: '42px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#4a5568', transition: 'all 0.2s', fontWeight: 600, gap: '6px' }} onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.8)'; e.currentTarget.style.color = '#111'; }} onMouseOut={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.5)'; e.currentTarget.style.color = '#4a5568'; }} title="About this demo">
+          <button onClick={() => { setShowInfo(true); setIsMobileMenuOpen(false); }} style={{ background: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.8)', borderRadius: '50px', padding: '0 16px', height: '42px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#4a5568', transition: 'all 0.2s', fontWeight: 600, gap: '6px' }} onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.8)'; e.currentTarget.style.color = '#111'; }} onMouseOut={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.5)'; e.currentTarget.style.color = '#4a5568'; }} title="About this demo">
             <Info size={18} /> Info
           </button>
 
+          </div>
         </div>
       </header>
 
@@ -368,7 +386,7 @@ export default function Home() {
       {activeFlow === 'custom' && (
         <div className="glass-panel" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           {/* Preset Management */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#f8fafc', padding: '1rem', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', backgroundColor: '#f8fafc', padding: '1rem', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
             <div>
               <h3 style={{ margin: '0 0 0.25rem 0', fontSize: '1.1rem', color: '#1e293b' }}>Presets</h3>
               <p style={{ margin: 0, fontSize: '0.85rem', color: '#64748b' }}>Save and load your custom designs locally</p>
@@ -392,7 +410,7 @@ export default function Home() {
           </div>
           <div>
             <h2 style={{ margin: '0 0 1.5rem 0', fontSize: '1.4rem', fontWeight: 700, color: '#111' }}>Content Editor</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: '1.5rem' }}>
               <div>
                 <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 600, color: '#4a5568', marginBottom: '8px' }}>Headline</label>
                 <input type="text" value={draftContent.headline} onChange={e => {
@@ -507,7 +525,7 @@ export default function Home() {
 
           <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '1.5rem' }}>
             <h2 style={{ margin: '0 0 1.5rem 0', fontSize: '1.4rem', fontWeight: 700, color: '#111' }}>Theme Editor</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: '1.5rem' }}>
               <div>
                 <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 600, color: '#4a5568', marginBottom: '8px' }}>Primary Color</label>
                 <input type="color" value={draftTheme.colors.primary} onChange={e => setDraftTheme({ ...draftTheme, colors: { ...draftTheme.colors, primary: e.target.value } })} style={{ width: '100%', height: '40px', padding: '0', border: 'none', borderRadius: '8px', cursor: 'pointer' }} />
