@@ -9,19 +9,19 @@ import { saasTheme } from '../theme/saas';
 import { ecommerceTheme } from '../theme/ecommerce';
 import { darkTheme } from '../theme/dark';
 import { Mail, Globe, FileText, Code, X, Copy, Check, Info } from 'lucide-react';
-import { onboardingContent, receiptContent, orderShippedContent, orderShippedReceiptContent } from '../content/onboarding';
+import { onboardingContent, receiptContent, orderShippedContent, orderShippedReceiptContent, ContentPayload } from '../content/onboarding';
 
 // Modal component for inspecting markup
-function InspectModal({ 
-  isOpen, 
-  onClose, 
-  html, 
-  title, 
-  badge 
-}: { 
-  isOpen: boolean, 
-  onClose: () => void, 
-  html: string, 
+function InspectModal({
+  isOpen,
+  onClose,
+  html,
+  title,
+  badge
+}: {
+  isOpen: boolean,
+  onClose: () => void,
+  html: string,
   title: string,
   badge: string
 }) {
@@ -53,9 +53,9 @@ function InspectModal({
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem', borderBottom: '1px solid #333' }}>
           <div>
             <h2 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 600 }}>{title} Raw Output</h2>
-            <div style={{ 
-              marginTop: '0.5rem', display: 'inline-block', padding: '4px 10px', 
-              backgroundColor: '#2d2d2d', borderRadius: '4px', fontSize: '0.85rem', color: '#a0a0a0' 
+            <div style={{
+              marginTop: '0.5rem', display: 'inline-block', padding: '4px 10px',
+              backgroundColor: '#2d2d2d', borderRadius: '4px', fontSize: '0.85rem', color: '#a0a0a0'
             }}>
               {badge}
             </div>
@@ -76,7 +76,7 @@ function InspectModal({
             </button>
           </div>
         </div>
-        
+
         {/* Modal Body (Code) */}
         <div style={{ padding: '1.5rem', overflow: 'auto', flexGrow: 1 }}>
           <pre style={{ margin: 0, fontFamily: 'monospace', fontSize: '13px', lineHeight: '1.5', color: '#e4e4e4', whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
@@ -90,10 +90,13 @@ function InspectModal({
 
 export default function Home() {
   const [activeTheme, setActiveTheme] = useState(saasTheme);
-  const [activeFlow, setActiveFlow] = useState<'welcome' | 'shipped'>('welcome');
+  const [activeFlow, setActiveFlow] = useState<'welcome' | 'shipped' | 'custom'>('welcome');
   const [isClient, setIsClient] = useState(false);
   const [inspecting, setInspecting] = useState<'email' | 'web' | 'pdf' | null>(null);
   const [showInfo, setShowInfo] = useState(false);
+
+  const [customContent, setCustomContent] = useState<ContentPayload>(onboardingContent);
+  const [customReceiptContent, setCustomReceiptContent] = useState<ContentPayload>(receiptContent);
 
   React.useEffect(() => {
     setIsClient(true);
@@ -102,11 +105,12 @@ export default function Home() {
   const themes = [saasTheme, ecommerceTheme, darkTheme];
   const flows = [
     { id: 'welcome', label: 'Welcome Flow' },
-    { id: 'shipped', label: 'Order Shipped Flow' }
+    { id: 'shipped', label: 'Order Shipped Flow' },
+    { id: 'custom', label: 'Studio Mode' }
   ];
 
-  const currentContent = activeFlow === 'welcome' ? onboardingContent : orderShippedContent;
-  const currentReceiptContent = activeFlow === 'welcome' ? receiptContent : orderShippedReceiptContent;
+  const currentContent = activeFlow === 'custom' ? customContent : (activeFlow === 'welcome' ? onboardingContent : orderShippedContent);
+  const currentReceiptContent = activeFlow === 'custom' ? customReceiptContent : (activeFlow === 'welcome' ? receiptContent : orderShippedReceiptContent);
 
   const injectStyles = (html: string, bgColor: string) => {
     const css = `
@@ -124,10 +128,10 @@ export default function Home() {
   // Render to HTML only on client to prevent hydration mismatch
   const rawEmailHtml = isClient ? renderToHtml(<WelcomeEmail theme={activeTheme} content={currentContent} />) : '';
   const emailHtml = injectStyles(rawEmailHtml, activeTheme.colors.background);
-  
+
   const rawWebHtml = isClient ? renderToHtml(<LandingPage theme={activeTheme} content={currentContent} />) : '';
   const webHtml = injectStyles(rawWebHtml, activeTheme.colors.background);
-  
+
   const rawPdfHtml = isClient ? renderToHtml(<Receipt theme={activeTheme} content={currentReceiptContent} />) : '';
   const pdfHtml = injectStyles(rawPdfHtml, activeTheme.colors.background);
 
@@ -148,12 +152,12 @@ export default function Home() {
 
   return (
     <main style={{ padding: '3rem 2rem', maxWidth: '1600px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      
+
       {/* Inspect Modal */}
-      <InspectModal 
-        isOpen={inspecting !== null} 
-        onClose={() => setInspecting(null)} 
-        html={inspectData.html} 
+      <InspectModal
+        isOpen={inspecting !== null}
+        onClose={() => setInspecting(null)}
+        html={inspectData.html}
         title={inspectData.title}
         badge={inspectData.badge}
       />
@@ -185,9 +189,9 @@ export default function Home() {
           <h1 style={{ margin: 0, fontSize: '1.8rem', fontWeight: 700, letterSpacing: '-0.02em', background: 'linear-gradient(90deg, #111, #555)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Elementary Kit</h1>
           <p style={{ margin: '2px 0 0 0', color: '#4a5568', fontSize: '1rem', fontWeight: 500 }}>One component tree. Every surface.</p>
         </div>
-        
+
         <div className="header-actions" style={{ display: 'flex', gap: '24px', alignItems: 'center', flexWrap: 'wrap' }}>
-          
+
           {/* Template Flow Switcher */}
           <div style={{ display: 'flex', gap: '8px', background: 'rgba(0,0,0,0.05)', padding: '6px', borderRadius: '50px', border: '1px solid rgba(0,0,0,0.1)' }}>
             {flows.map((f) => {
@@ -265,10 +269,74 @@ export default function Home() {
 
         </div>
       </header>
-      
+
+      {/* Studio Mode Editor */}
+      {activeFlow === 'custom' && (
+        <div className="glass-panel" style={{ padding: '1.5rem' }}>
+          <h2 style={{ margin: '0 0 1.5rem 0', fontSize: '1.4rem', fontWeight: 700, color: '#111' }}>Content Editor</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
+            <div>
+              <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 600, color: '#4a5568', marginBottom: '8px' }}>Headline</label>
+              <input type="text" value={customContent.headline} onChange={e => {
+                setCustomContent({ ...customContent, headline: e.target.value });
+                setCustomReceiptContent({ ...customReceiptContent, headline: e.target.value });
+              }} style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '0.95rem' }} />
+            </div>
+            <div>
+              <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 600, color: '#4a5568', marginBottom: '8px' }}>CTA Text</label>
+              <input type="text" value={customContent.ctaText} onChange={e => {
+                setCustomContent({ ...customContent, ctaText: e.target.value });
+                setCustomReceiptContent({ ...customReceiptContent, ctaText: e.target.value });
+              }} style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '0.95rem' }} />
+            </div>
+            <div style={{ gridColumn: '1 / -1' }}>
+              <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 600, color: '#4a5568', marginBottom: '8px' }}>CTA URL</label>
+              <input type="text" value={customContent.ctaUrl} onChange={e => {
+                setCustomContent({ ...customContent, ctaUrl: e.target.value });
+                setCustomReceiptContent({ ...customReceiptContent, ctaUrl: e.target.value });
+              }} style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '0.95rem' }} />
+            </div>
+            <div style={{ gridColumn: '1 / -1' }}>
+              <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 600, color: '#4a5568', marginBottom: '8px' }}>Body Copy</label>
+              <textarea value={customContent.bodyCopy} onChange={e => {
+                setCustomContent({ ...customContent, bodyCopy: e.target.value });
+                setCustomReceiptContent({ ...customReceiptContent, bodyCopy: e.target.value });
+              }} style={{ width: '100%', padding: '12px 14px', borderRadius: '8px', border: '1px solid #e2e8f0', minHeight: '100px', fontFamily: 'inherit', fontSize: '0.95rem', resize: 'vertical' }} />
+            </div>
+            <div style={{ gridColumn: '1 / -1' }}>
+              <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 600, color: '#4a5568', marginBottom: '12px' }}>Line Items (Receipt only)</label>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {customReceiptContent.lineItems?.map((item, i) => (
+                  <div key={i} style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                    <input type="text" placeholder="Label (e.g. Pro Plan)" value={item.label} onChange={e => {
+                      const newItems = [...(customReceiptContent.lineItems || [])];
+                      newItems[i].label = e.target.value;
+                      setCustomReceiptContent({ ...customReceiptContent, lineItems: newItems });
+                    }} style={{ flex: 2, padding: '10px 14px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '0.95rem' }} />
+                    <input type="text" placeholder="Value (e.g. $49.00)" value={item.value} onChange={e => {
+                      const newItems = [...(customReceiptContent.lineItems || [])];
+                      newItems[i].value = e.target.value;
+                      setCustomReceiptContent({ ...customReceiptContent, lineItems: newItems });
+                    }} style={{ flex: 1, padding: '10px 14px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '0.95rem' }} />
+                    <button onClick={() => {
+                      const newItems = customReceiptContent.lineItems?.filter((_, idx) => idx !== i);
+                      setCustomReceiptContent({ ...customReceiptContent, lineItems: newItems });
+                    }} style={{ background: '#fee2e2', color: '#ef4444', border: 'none', borderRadius: '8px', height: '40px', width: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontWeight: 600, transition: 'all 0.2s' }} onMouseOver={e => e.currentTarget.style.background = '#fecaca'} onMouseOut={e => e.currentTarget.style.background = '#fee2e2'}><X size={18} /></button>
+                  </div>
+                ))}
+                <button onClick={() => {
+                  const newItems = [...(customReceiptContent.lineItems || []), { label: 'New Item', value: '$0.00' }];
+                  setCustomReceiptContent({ ...customReceiptContent, lineItems: newItems });
+                }} style={{ alignSelf: 'flex-start', background: '#f8fafc', border: '1px solid #e2e8f0', padding: '8px 16px', borderRadius: '8px', fontSize: '0.9rem', cursor: 'pointer', fontWeight: 600, color: '#4a5568', transition: 'all 0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#f1f5f9'; e.currentTarget.style.color = '#111'; }} onMouseOut={e => { e.currentTarget.style.background = '#f8fafc'; e.currentTarget.style.color = '#4a5568'; }}>+ Add Line Item</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Surfaces Grid */}
       <div className="surfaces-grid">
-        
+
         {/* Email Preview */}
         <div className="glass-panel surface-card" style={{ display: 'flex', flexDirection: 'column', padding: '1.5rem', transition: 'transform 0.3s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', padding: '0 0.5rem' }}>
@@ -345,7 +413,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        
+
       </div>
 
       {/* Page Footer */}

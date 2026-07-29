@@ -1,6 +1,7 @@
 import React from 'react';
-import { Row, Column, Paragraph as BaseParagraph } from '@unlayer/react-elements';
+import { Row, Column, Paragraph as BaseParagraph, Divider as BaseDivider } from '@unlayer/react-elements';
 const Paragraph = BaseParagraph as any;
+const Divider = BaseDivider as any;
 import { Theme } from '../../theme/tokens';
 import { ContentPayload } from '../../content/onboarding';
 
@@ -10,15 +11,7 @@ export function ReceiptItems({ theme, content }: { theme: Theme; content: Conten
       {/* Separator line */}
       <Row>
         <Column>
-          <Paragraph
-            color={theme.colors.text}
-            fontFamily={theme.fontFamily}
-            fontSize="12px"
-            lineHeight="0.5"
-            padding="4px 20px"
-          >
-            ————————————————————
-          </Paragraph>
+          <Divider lineColor="#cbd5e1" lineStyle="solid" lineWidth="1px" padding="10px 20px" width="100%" />
         </Column>
       </Row>
 
@@ -61,15 +54,7 @@ export function ReceiptItems({ theme, content }: { theme: Theme; content: Conten
       {/* Bottom separator */}
       <Row>
         <Column>
-          <Paragraph
-            color={theme.colors.text}
-            fontFamily={theme.fontFamily}
-            fontSize="12px"
-            lineHeight="0.5"
-            padding="4px 20px"
-          >
-            ————————————————————
-          </Paragraph>
+          <Divider lineColor="#cbd5e1" lineStyle="solid" lineWidth="1px" padding="10px 20px" width="100%" />
         </Column>
       </Row>
     </>

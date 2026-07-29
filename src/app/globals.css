@@ -72,9 +72,14 @@ body {
 .surfaces-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr;
   gap: 2rem;
   height: 75vh;
   min-height: 650px;
+}
+
+.surface-card {
+  min-height: 0;
 }
 
 @media (max-width: 1024px) {
