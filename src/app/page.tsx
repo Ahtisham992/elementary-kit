@@ -660,38 +660,19 @@ export default function Home() {
             <div style={{ backgroundColor: '#202124', borderBottom: '1px solid #1a1a1c', padding: '10px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#f1f3f4' }}>
               <span style={{ fontSize: '0.85rem' }}>receipt_{activeFlow}.pdf</span>
               {activeFlow === 'custom' ? (
-                <button onClick={async (e) => {
-                  const btn = e.currentTarget;
-                  const originalText = btn.innerHTML;
-                  btn.innerHTML = 'Generating...';
-                  btn.disabled = true;
-                  try {
-                    const res = await fetch('/api/download/custom', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ html: pdfHtml })
-                    });
-                    if (res.ok) {
-                      const blob = await res.blob();
-                      const url = window.URL.createObjectURL(blob);
-                      const a = document.createElement('a');
-                      a.href = url;
-                      a.download = `custom_receipt.pdf`;
-                      document.body.appendChild(a);
-                      a.click();
-                      window.URL.revokeObjectURL(url);
-                      a.remove();
-                    } else {
-                      alert('Failed to generate PDF');
-                    }
-                  } catch (err) {
-                    alert('Error downloading PDF');
-                  } finally {
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
+                <button onClick={() => {
+                  const printWindow = window.open('', '', 'width=800,height=900');
+                  if (printWindow) {
+                    printWindow.document.write(pdfHtml);
+                    printWindow.document.close();
+                    printWindow.focus();
+                    setTimeout(() => {
+                      printWindow.print();
+                      printWindow.close();
+                    }, 250);
                   }
-                }} style={{ backgroundColor: '#8ab4f8', color: '#202124', padding: '4px 12px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 600, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Download
+                }} style={{ backgroundColor: '#8ab4f8', color: '#202124', padding: '4px 12px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 600, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }} title="Vercel serverless doesn't support Puppeteer backend rendering. Click to Print -> Save as PDF.">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Print PDF
                 </button>
               ) : (
                 <a href={activeFlow === 'welcome' ? '/api/download/invoice/EK-9938' : '/api/download/invoice/EK-9939'} target="_blank" rel="noreferrer" style={{ backgroundColor: '#8ab4f8', color: '#202124', padding: '4px 12px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 600, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
