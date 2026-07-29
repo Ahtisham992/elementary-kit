@@ -10,4 +10,5 @@ export interface Theme {
   spacing: {
     base: string;
   };
+  borderRadius?: string;
 }

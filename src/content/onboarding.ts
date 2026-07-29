@@ -1,8 +1,20 @@
-export const onboardingContent = {
+export type ContentPayload = {
+  headline: string;
+  bodyCopy: string;
+  ctaText: string;
+  ctaUrl: string;
+  lineItems: Array<{ label: string; value: string }>;
+  receiptDetails?: {
+    items: Array<{ description: string; price: number }>;
+    taxRate: number;
+    extraCharges: Array<{ label: string; amount: number }>;
+  };
+};
+
+export const onboardingContent: ContentPayload = {
   headline: "Welcome to Elementary Kit",
   bodyCopy: "We're thrilled to have you here. Elementary Kit lets you write one component tree and render it everywhere.",
   ctaText: "Get Started",
-  // Demo link — points to the project repo so judges land somewhere real
   ctaUrl: "https://elementary-kit.vercel.app/onboarding",
   lineItems: [
     { label: "Plan", value: "Pro" },
@@ -10,20 +22,22 @@ export const onboardingContent = {
   ],
 };
 
-export const receiptContent = {
+export const receiptContent: ContentPayload = {
   headline: "Payment Receipt",
   bodyCopy: "Thank you for your purchase! Your order #EK-9938 has been processed successfully.",
   ctaText: "Download Invoice",
-  // Demo link — in production this would point to a generated PDF download
   ctaUrl: "https://elementary-kit.vercel.app/api/download/invoice/EK-9938",
-  lineItems: [
-    { label: "Elementary Kit Pro", value: "$49.00" },
-    { label: "Tax (0%)", value: "$0.00" },
-    { label: "Total", value: "$49.00" },
-  ],
+  lineItems: [],
+  receiptDetails: {
+    items: [
+      { description: "Elementary Kit Pro", price: 49.00 }
+    ],
+    taxRate: 0,
+    extraCharges: []
+  }
 };
 
-export const orderShippedContent = {
+export const orderShippedContent: ContentPayload = {
   headline: "Your Order is Shipped",
   bodyCopy: "Great news! Your package is on its way. You can track your shipment using the link below.",
   ctaText: "Track Package",
@@ -34,17 +48,19 @@ export const orderShippedContent = {
   ],
 };
 
-export const orderShippedReceiptContent = {
+export const orderShippedReceiptContent: ContentPayload = {
   headline: "Order Invoice",
   bodyCopy: "Here is your invoice for order #EK-9939 shipped today.",
   ctaText: "Download Invoice",
   ctaUrl: "https://elementary-kit.vercel.app/api/download/invoice/EK-9939",
-  lineItems: [
-    { label: "Mechanical Keyboard", value: "$129.00" },
-    { label: "Shipping", value: "$0.00" },
-    { label: "Tax (8%)", value: "$10.32" },
-    { label: "Total", value: "$139.32" },
-  ],
+  lineItems: [],
+  receiptDetails: {
+    items: [
+      { description: "Mechanical Keyboard", price: 129.00 }
+    ],
+    taxRate: 8,
+    extraCharges: [
+      { label: "Shipping", amount: 0.00 }
+    ]
+  }
 };
-
-export type ContentPayload = typeof onboardingContent;

@@ -13,7 +13,7 @@ export function CTAButton({ theme, content }: { theme: Theme; content: ContentPa
           backgroundColor={theme.colors.primary}
           color="#ffffff"
           padding="12px 24px"
-          borderRadius="6px"
+          borderRadius={theme.borderRadius || "6px"}
           fontWeight={700}
         >
           {content.ctaText}
