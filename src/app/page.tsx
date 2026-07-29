@@ -240,7 +240,7 @@ export default function Home() {
   const inspectData = getInspectData();
 
   return (
-    <main style={{ padding: '3rem 2rem', maxWidth: '1600px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+    <main className="app-main" style={{ maxWidth: '1600px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
 
       {/* Inspect Modal */}
       <InspectModal
@@ -391,7 +391,7 @@ export default function Home() {
               <h3 style={{ margin: '0 0 0.25rem 0', fontSize: '1.1rem', color: '#1e293b' }}>Presets</h3>
               <p style={{ margin: 0, fontSize: '0.85rem', color: '#64748b' }}>Save and load your custom designs locally</p>
             </div>
-            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
               {presets.length > 0 && (
                 <select onChange={loadPreset} defaultValue="" style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.9rem', backgroundColor: '#fff', minWidth: '150px' }}>
                   <option value="" disabled>Load a preset...</option>
@@ -410,7 +410,7 @@ export default function Home() {
           </div>
           <div>
             <h2 style={{ margin: '0 0 1.5rem 0', fontSize: '1.4rem', fontWeight: 700, color: '#111' }}>Content Editor</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: '1.5rem' }}>
+            <div className="editor-grid">
               <div>
                 <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 600, color: '#4a5568', marginBottom: '8px' }}>Headline</label>
                 <input type="text" value={draftContent.headline} onChange={e => {
@@ -525,7 +525,7 @@ export default function Home() {
 
           <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '1.5rem' }}>
             <h2 style={{ margin: '0 0 1.5rem 0', fontSize: '1.4rem', fontWeight: 700, color: '#111' }}>Theme Editor</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: '1.5rem' }}>
+            <div className="editor-grid">
               <div>
                 <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 600, color: '#4a5568', marginBottom: '8px' }}>Primary Color</label>
                 <input type="color" value={draftTheme.colors.primary} onChange={e => setDraftTheme({ ...draftTheme, colors: { ...draftTheme.colors, primary: e.target.value } })} style={{ width: '100%', height: '40px', padding: '0', border: 'none', borderRadius: '8px', cursor: 'pointer' }} />
@@ -567,7 +567,7 @@ export default function Home() {
           <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '1.5rem', marginTop: '1.5rem' }}>
             <h2 style={{ margin: '0 0 0.5rem 0', fontSize: '1.4rem', fontWeight: 700, color: '#111' }}>Export Center</h2>
             <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#64748b' }}>Export your customized React payloads or download HTML for your own platform.</p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+            <div className="editor-grid">
               <button onClick={() => {
                 const blob = new Blob([emailHtml], { type: 'text/html' });
                 const url = window.URL.createObjectURL(blob);

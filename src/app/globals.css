@@ -55,6 +55,16 @@ body {
   border-radius: 20px;
 }
 
+.app-main {
+  padding: 3rem 2rem;
+}
+
+.editor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
 /* Responsive Layout */
 .app-header {
   display: flex;
@@ -95,6 +105,14 @@ body {
 }
 
 @media (max-width: 1024px) {
+  .app-main {
+    padding: 1rem 0.5rem;
+  }
+
+  .editor-grid {
+    grid-template-columns: 1fr;
+  }
+
   .surfaces-grid {
     grid-template-columns: 1fr;
     height: auto;
