@@ -254,8 +254,16 @@ export default function Home() {
               <Code size={16} /> Inspect Markup
             </button>
           </div>
-          <div style={{ flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', backgroundColor: activeTheme.colors.background, boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.02)' }}>
-            <iframe key={`email-${activeTheme.name}-${activeFlow}`} srcDoc={emailHtml} style={{ width: '100%', height: '100%', border: 'none' }} title="Email Preview" />
+          <div style={{ flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', backgroundColor: activeTheme.colors.background, boxShadow: '0 4px 20px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ backgroundColor: '#f3f4f6', borderBottom: '1px solid #e5e7eb', padding: '12px 16px', fontSize: '0.85rem', color: '#4b5563' }}>
+              <div style={{ display: 'flex', marginBottom: '6px' }}><span style={{ width: '60px', fontWeight: 600 }}>To:</span> <span>user@example.com</span></div>
+              <div style={{ display: 'flex', marginBottom: '6px' }}><span style={{ width: '60px', fontWeight: 600 }}>From:</span> <span>hello@elementary-kit.com</span></div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex' }}><span style={{ width: '60px', fontWeight: 600 }}>Subject:</span> <span>{activeFlow === 'welcome' ? 'Welcome to Elementary Kit' : 'Your Order has Shipped'}</span></div>
+                <button disabled style={{ backgroundColor: '#e5e7eb', color: '#9ca3af', border: 'none', padding: '4px 12px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 600, cursor: 'not-allowed' }}>Send Preview</button>
+              </div>
+            </div>
+            <iframe key={`email-${activeTheme.name}-${activeFlow}`} srcDoc={emailHtml} style={{ width: '100%', flexGrow: 1, border: 'none' }} title="Email Preview" />
           </div>
         </div>
 
@@ -270,8 +278,19 @@ export default function Home() {
               <Code size={16} /> Inspect Markup
             </button>
           </div>
-          <div style={{ flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', backgroundColor: activeTheme.colors.background, boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.02)' }}>
-            <iframe key={`web-${activeTheme.name}-${activeFlow}`} srcDoc={webHtml} style={{ width: '100%', height: '100%', border: 'none' }} title="Web Preview" />
+          <div style={{ flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', backgroundColor: activeTheme.colors.background, boxShadow: '0 4px 20px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ backgroundColor: '#e5e5ea', borderBottom: '1px solid #d1d1d6', padding: '10px 16px', display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div style={{ display: 'flex', gap: '6px' }}>
+                <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#ff5f56' }}></div>
+                <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#ffbd2e' }}></div>
+                <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#27c93f' }}></div>
+              </div>
+              <div style={{ flexGrow: 1, backgroundColor: '#ffffff', borderRadius: '6px', padding: '4px 12px', fontSize: '0.8rem', color: '#8e8e93', textAlign: 'center', display: 'flex', justifyContent: 'space-between' }}>
+                <span>elementary-kit.vercel.app</span>
+                <a href="https://elementary-kit.vercel.app/" target="_blank" rel="noreferrer" style={{ color: '#007aff', textDecoration: 'none' }}>Open tab &nearr;</a>
+              </div>
+            </div>
+            <iframe key={`web-${activeTheme.name}-${activeFlow}`} srcDoc={webHtml} style={{ width: '100%', flexGrow: 1, border: 'none' }} title="Web Preview" />
           </div>
         </div>
 
@@ -286,8 +305,18 @@ export default function Home() {
               <Code size={16} /> Inspect Markup
             </button>
           </div>
-          <div style={{ flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', backgroundColor: activeTheme.colors.background, boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.02)' }}>
-            <iframe key={`pdf-${activeTheme.name}-${activeFlow}`} srcDoc={pdfHtml} style={{ width: '100%', height: '100%', border: 'none' }} title="PDF Preview" />
+          <div style={{ flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', backgroundColor: '#323639', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ backgroundColor: '#202124', borderBottom: '1px solid #1a1a1c', padding: '10px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#f1f3f4' }}>
+              <span style={{ fontSize: '0.85rem' }}>receipt_{activeFlow}.pdf</span>
+              <a href={activeFlow === 'welcome' ? '/api/download/invoice/EK-9938' : '/api/download/invoice/EK-9939'} target="_blank" rel="noreferrer" style={{ backgroundColor: '#8ab4f8', color: '#202124', padding: '4px 12px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 600, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Download
+              </a>
+            </div>
+            <div style={{ padding: '20px', flexGrow: 1, overflowY: 'auto', display: 'flex', justifyContent: 'center' }}>
+              <div style={{ width: '100%', backgroundColor: activeTheme.colors.background, boxShadow: '0 2px 10px rgba(0,0,0,0.2)' }}>
+                <iframe key={`pdf-${activeTheme.name}-${activeFlow}`} srcDoc={pdfHtml} style={{ width: '100%', height: '100%', minHeight: '600px', border: 'none' }} title="PDF Preview" />
+              </div>
+            </div>
           </div>
         </div>
         
