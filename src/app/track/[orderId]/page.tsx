@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import React from 'react';
 
-export default function TrackPage({ params }: { params: { orderId: string } }) {
+export default async function TrackPage({ params }: { params: Promise<{ orderId: string }> }) {
+  const { orderId } = await params;
   return (
     <main style={{ padding: '4rem', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
       <div className="glass-panel" style={{ padding: '3rem', textAlign: 'center', maxWidth: '600px', width: '100%' }}>
         <h1 style={{ marginBottom: '1rem', fontSize: '2.2rem', background: 'linear-gradient(90deg, #111, #555)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontWeight: 700 }}>
-          Tracking Order {params.orderId}
+          Tracking Order {orderId}
         </h1>
         
         <div style={{ backgroundColor: 'rgba(255,255,255,0.6)', padding: '1.5rem', borderRadius: '16px', margin: '2rem 0', border: '1px solid rgba(0,0,0,0.05)', boxShadow: '0 4px 12px rgba(0,0,0,0.02)' }}>
