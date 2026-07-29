@@ -41,12 +41,12 @@ async function main() {
   // Welcome PDF
   const page1 = await browser.newPage();
   await page1.setContent(pdfHtml, { waitUntil: 'load' });
-  await page1.pdf({ path: path.join(OUT_DIR, 'receipt.pdf'), format: 'A4', printBackground: true });
+  await page1.pdf({ path: path.join(OUT_DIR, 'receipt.pdf'), format: 'A4', printBackground: true, margin: { top: '0', bottom: '0', left: '0', right: '0' } });
   
   // Shipped PDF
   const page2 = await browser.newPage();
   await page2.setContent(shippedPdfHtml, { waitUntil: 'load' });
-  await page2.pdf({ path: path.join(OUT_DIR, 'shipped-receipt.pdf'), format: 'A4', printBackground: true });
+  await page2.pdf({ path: path.join(OUT_DIR, 'shipped-receipt.pdf'), format: 'A4', printBackground: true, margin: { top: '0', bottom: '0', left: '0', right: '0' } });
   
   await browser.close();
 

@@ -8,7 +8,7 @@ import { Receipt } from '../surfaces/pdf/Receipt';
 import { saasTheme } from '../theme/saas';
 import { ecommerceTheme } from '../theme/ecommerce';
 import { darkTheme } from '../theme/dark';
-import { Mail, Globe, FileText, Code, X, Copy, Check } from 'lucide-react';
+import { Mail, Globe, FileText, Code, X, Copy, Check, Info } from 'lucide-react';
 import { onboardingContent, receiptContent, orderShippedContent, orderShippedReceiptContent } from '../content/onboarding';
 
 // Modal component for inspecting markup
@@ -93,6 +93,7 @@ export default function Home() {
   const [activeFlow, setActiveFlow] = useState<'welcome' | 'shipped'>('welcome');
   const [isClient, setIsClient] = useState(false);
   const [inspecting, setInspecting] = useState<'email' | 'web' | 'pdf' | null>(null);
+  const [showInfo, setShowInfo] = useState(false);
 
   React.useEffect(() => {
     setIsClient(true);
@@ -156,6 +157,27 @@ export default function Home() {
         title={inspectData.title}
         badge={inspectData.badge}
       />
+
+      {/* Info Modal */}
+      {showInfo && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.4)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(4px)' }} onClick={() => setShowInfo(false)}>
+          <div style={{ backgroundColor: '#fff', borderRadius: '12px', padding: '24px', maxWidth: '450px', width: '90%', boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }} onClick={e => e.stopPropagation()}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <h3 style={{ margin: 0, fontSize: '1.2rem', color: '#111' }}>About Elementary Kit</h3>
+              <button onClick={() => setShowInfo(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#666' }}><X size={20} /></button>
+            </div>
+            <p style={{ color: '#4a5568', lineHeight: 1.6, margin: '0 0 12px 0' }}>
+              This demo renders the same content from one React component tree into 3 formats: Email, Web, and PDF using Unlayer Elements.
+            </p>
+            <p style={{ color: '#4a5568', lineHeight: 1.6, margin: '0 0 12px 0' }}>
+              Switch between themes and flows to see how the same tree adapts.
+            </p>
+            <p style={{ color: '#4a5568', lineHeight: 1.6, margin: 0 }}>
+              Click <strong>Inspect Markup</strong> on any panel to see the actual generated HTML/output for that surface.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Premium Header */}
       <header className="glass-panel app-header">
@@ -236,6 +258,10 @@ export default function Home() {
               );
             })}
           </div>
+
+          <button onClick={() => setShowInfo(true)} style={{ background: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.8)', borderRadius: '50px', padding: '0 16px', height: '42px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#4a5568', transition: 'all 0.2s', fontWeight: 600, gap: '6px' }} onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.8)'; e.currentTarget.style.color = '#111'; }} onMouseOut={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.5)'; e.currentTarget.style.color = '#4a5568'; }} title="About this demo">
+            <Info size={18} /> Info
+          </button>
 
         </div>
       </header>
@@ -321,6 +347,16 @@ export default function Home() {
         </div>
         
       </div>
+
+      {/* Page Footer */}
+      <footer style={{ marginTop: '60px', padding: '24px', borderTop: '1px solid rgba(0,0,0,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', color: '#666', fontSize: '0.9rem' }}>
+        <div>Built for the <a href="https://unlayer.com" target="_blank" rel="noreferrer" style={{ color: '#111', fontWeight: 600, textDecoration: 'none' }}>Unlayer #BuiltWithElements Challenge</a></div>
+        <div style={{ display: 'flex', gap: '16px' }}>
+          <a href="https://github.com/Ahtisham992/elementary-kit" target="_blank" rel="noreferrer" style={{ color: '#666', textDecoration: 'none' }}>GitHub Repo</a>
+          <span>&bull;</span>
+          <a href="https://github.com/unlayer/elements" target="_blank" rel="noreferrer" style={{ color: '#666', textDecoration: 'none' }}>Unlayer Elements</a>
+        </div>
+      </footer>
     </main>
   );
 }

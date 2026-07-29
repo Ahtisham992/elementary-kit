@@ -13,7 +13,6 @@ export function Receipt({ theme, content }: { theme: Theme; content: ContentPayl
       <Header theme={theme} content={content} />
       <HeroSection theme={theme} content={content} />
       <ReceiptItems theme={theme} content={content} />
-      <CTAButton theme={theme} content={content} />
     </Document>
   );
 }
