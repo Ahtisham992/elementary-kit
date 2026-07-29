@@ -287,7 +287,7 @@ export default function Home() {
               </div>
               <div style={{ flexGrow: 1, backgroundColor: '#ffffff', borderRadius: '6px', padding: '4px 12px', fontSize: '0.8rem', color: '#8e8e93', textAlign: 'center', display: 'flex', justifyContent: 'space-between' }}>
                 <span>elementary-kit.vercel.app</span>
-                <a href="https://elementary-kit.vercel.app/" target="_blank" rel="noreferrer" style={{ color: '#007aff', textDecoration: 'none' }}>Open tab &nearr;</a>
+                <a href="https://elementary-kit.vercel.app/" target="_blank" rel="noreferrer" style={{ color: '#007aff', textDecoration: 'none' }}>Open tab ↗</a>
               </div>
             </div>
             <iframe key={`web-${activeTheme.name}-${activeFlow}`} srcDoc={webHtml} style={{ width: '100%', flexGrow: 1, border: 'none' }} title="Web Preview" />
