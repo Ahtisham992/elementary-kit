@@ -276,9 +276,12 @@ export default function Home() {
 
       {/* Premium Header */}
       <header className="glass-panel app-header">
-        <div>
-          <h1 style={{ margin: 0, fontSize: '1.8rem', fontWeight: 700, letterSpacing: '-0.02em', background: 'linear-gradient(90deg, #111, #555)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Elementary Kit</h1>
-          <p style={{ margin: '2px 0 0 0', color: '#4a5568', fontSize: '1rem', fontWeight: 500 }}>One component tree. Every surface.</p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <img src="/logo.png" alt="Elementary Kit Logo" style={{ width: '48px', height: '48px', borderRadius: '12px', objectFit: 'cover' }} />
+          <div>
+            <h1 style={{ margin: 0, fontSize: '1.8rem', fontWeight: 700, letterSpacing: '-0.02em', background: 'linear-gradient(90deg, #111, #555)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Elementary Kit</h1>
+            <p style={{ margin: '2px 0 0 0', color: '#4a5568', fontSize: '1rem', fontWeight: 500 }}>One component tree. Every surface.</p>
+          </div>
         </div>
 
         <div className="header-actions" style={{ display: 'flex', gap: '24px', alignItems: 'center', flexWrap: 'wrap' }}>
@@ -692,10 +695,13 @@ export default function Home() {
 
       {/* Page Footer */}
       <footer style={{ marginTop: '60px', padding: '24px', borderTop: '1px solid rgba(0,0,0,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', color: '#666', fontSize: '0.9rem' }}>
-        <div>
-          Built for the <a href="https://unlayer.com" target="_blank" rel="noreferrer" style={{ color: '#111', fontWeight: 600, textDecoration: 'none' }}>Unlayer #BuiltWithElements Challenge</a>
-          <span style={{ margin: '0 8px' }}>|</span>
-          <span style={{ color: '#888' }}>Powered by React Server Components & Puppeteer</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <img src="/logo.png" alt="Logo" style={{ width: '24px', height: '24px', borderRadius: '6px' }} />
+          <div>
+            Built for the <a href="https://unlayer.com" target="_blank" rel="noreferrer" style={{ color: '#111', fontWeight: 600, textDecoration: 'none' }}>Unlayer #BuiltWithElements Challenge</a>
+            <span style={{ margin: '0 8px' }}>|</span>
+            <span style={{ color: '#888' }}>Powered by React Server Components & Puppeteer</span>
+          </div>
         </div>
         <div style={{ display: 'flex', gap: '16px' }}>
           <a href="https://github.com/Ahtisham992/elementary-kit" target="_blank" rel="noreferrer" style={{ color: '#666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={e => e.currentTarget.style.color = '#111'} onMouseOut={e => e.currentTarget.style.color = '#666'}>GitHub Repo</a>
