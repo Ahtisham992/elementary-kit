@@ -16,7 +16,7 @@ https://github.com/user-attachments/assets/4413be75-e7bc-49d6-a6ff-c85b9dca5b4d
 
 Most teams hand-code emails, web pages, and PDFs separately, even when they share the same brand and content. **Elementary Kit** proves you don't have to. Built for the [Build with Elements Challenge](./docs/CHALLENGE.md).
 
-## 🚀 Features (The Studio Mode)
+## Features (The Studio Mode)
 
 Elementary Kit has evolved from a simple static demo into a fully interactive workspace powered by Unlayer Elements. 
 
