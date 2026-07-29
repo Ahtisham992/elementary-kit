@@ -6,7 +6,11 @@
 
 A themeable onboarding content system — welcome email, landing page, and PDF receipt — all rendered from the **same** React component tree using [Unlayer Elements](https://github.com/unlayer/elements). Switch themes and watch all three surfaces update together.
 
-![demo](./docs/demo.webp)
+![demo](
+
+https://github.com/user-attachments/assets/4413be75-e7bc-49d6-a6ff-c85b9dca5b4d
+
+)
 
 ## Why
 
