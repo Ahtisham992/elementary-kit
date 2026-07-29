@@ -3,13 +3,13 @@
 Use this right before submitting — every item maps to an actual qualification or judging criterion.
 
 ## Qualification (required)
-- [ ] Repo is public
-- [ ] Complete source code included (no missing files/private deps)
-- [ ] Starred the Elements repo (https://github.com/unlayer/elements)
-- [ ] README explains the project
-- [ ] README explains how to run it
-- [ ] README includes a screenshot or GIF of rendered output
-- [ ] Elements is genuinely core to the project (not just imported)
+- [x] Repo is public
+- [x] Complete source code included (no missing files/private deps)
+- [x] Starred the Elements repo (https://github.com/unlayer/elements)
+- [x] README explains the project
+- [x] README explains how to run it
+- [x] README includes a screenshot or GIF of rendered output
+- [x] Elements is genuinely core to the project (not just imported)
 
 ## Submission steps
 - [ ] Submitted via official form: https://lnkd.in/e4RzksMV

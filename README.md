@@ -10,7 +10,18 @@ A themeable onboarding content system — welcome email, landing page, and PDF r
 
 ## Why
 
-Most teams hand-code emails, web pages, and PDFs separately, even when they share the same brand and content. Elementary Kit proves you don't have to — built for the [Build with Elements Challenge](./docs/CHALLENGE.md).
+Most teams hand-code emails, web pages, and PDFs separately, even when they share the same brand and content. **Elementary Kit** proves you don't have to. Built for the [Build with Elements Challenge](./docs/CHALLENGE.md).
+
+## 🚀 Features (The Studio Mode)
+
+Elementary Kit has evolved from a simple static demo into a fully interactive workspace powered by Unlayer Elements. 
+
+- **Live Content Editor:** Modify the headline, CTA, body copy, and receipt items directly in the UI. Watch the changes instantly reflect across all 3 surfaces (Email, Web, PDF).
+- **Custom Theme Builder:** Use native color pickers and sliders to tweak your Primary/Background/Text colors, typography, and border-radius in real-time.
+- **Dynamic Receipt Engine:** A frontend calculator that automatically tallies up your custom receipt items, taxes, and extra charges.
+- **Save & Load Presets:** Securely save your custom UI configurations directly to your browser's `localStorage` and swap between them seamlessly.
+- **Export Center:** Download your fully-compiled, platform-ready HTML files instantly, or copy the React JSON payload to use in your own production backend.
+- **Zero-Dependency Architecture:** Deploys instantly on Vercel Serverless. Uses native browser `window.print()` for Custom PDF generation to completely avoid bloated backend Chromium dependencies.
 
 ## What's inside
 
@@ -20,22 +31,20 @@ Most teams hand-code emails, web pages, and PDFs separately, even when they shar
 | Landing page | Responsive flexbox HTML |
 | PDF receipt | Print-ready document |
 
-Plus a live **theme switcher** with 3 themes: SaaS, E-commerce, Dark Mode.
-
 ## Quick start
 
 ```bash
 git clone https://github.com/Ahtisham992/elementary-kit.git
 cd elementary-kit
 npm install
-npm run dev        # launches the demo app with the theme switcher
-npm run render-all # renders email.html, page.html, and receipt.pdf to /output
+npm run dev        # Launches the full Studio Mode application locally
+npm run render-all # (Optional) Renders static HTML/PDF fallbacks to /output
 ```
 
 ## Deployment (Vercel)
 
 This project is a standard Next.js application and is 100% zero-config compatible with Vercel. 
-The PDF generation via Puppeteer (`npm run render-all`) is isolated to a CLI script and is NOT executed during the standard Next.js `build` process, meaning there are no serverless function size limits or Chromium dependency issues to worry about during deployment.
+**No Heavy Backend Dependencies:** We explicitly designed the Custom PDF generator to utilize the browser's native `window.print()` isolated renderer. This avoids the infamous Vercel Serverless 50MB function limit caused by packages like `puppeteer-core` and `@sparticuz/chromium`.
 
 To deploy your own live demo:
 
